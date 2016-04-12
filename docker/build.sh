@@ -2,18 +2,18 @@
 
 declare -a checks
 
-repo_base="quay.io/eris"
+repo_base="chainlex"
 tag="latest"
 
 dep=(
-  "golang:1.5"
-  "ubuntu:14.04"
+  "armhfbuild/golang"
+  "armv7/armhf-ubuntu:14.04"
 )
 
 tobuild=(
   "base"
   "data"
-  "ipfs"
+#  "ipfs"
   "btcd"
   "ubuntu"
   "tools"
@@ -37,30 +37,35 @@ tobuildscript=(
 pull_deps() {
   for d in "${dep[@]}"
   do
+    echo ""
     echo "Pulling => $d"
-    echo ""
-    echo ""
+    #echo ""
+    #echo ""
     docker pull $d
-    echo ""
-    echo ""
+    #echo ""
+    echo -n ":-) "
     echo "Finished Pulling."
+    echo ""
   done
 }
 
 build_and_push() {
   ele=$1
-  echo "Building => $repo_base/$ele:$tag"
   echo ""
-  echo ""
-  docker build --no-cache -t $repo_base/$ele:$tag $ele 1>/dev/null
-  echo ""
-  echo ""
+  echo "Building => $repo_base/eris-$ele:$tag"
+  #echo ""
+  #echo ""
+  docker build --no-cache -t $repo_base/eris-$ele:$tag $ele 1>/dev/null
+  #echo ""
+  echo -n ":-) "
   echo "Finished Building."
-  echo "Pushing => $ele:$tag"
-  echo ""
-  echo ""
-  docker push $repo_base/$ele:$tag 1>/dev/null
+  echo "Pushing => eris-$ele:$tag"
+  #echo ""
+  #echo ""
+  docker push $repo_base/eris-$ele:$tag 1>/dev/null
+  echo -n ":-)"
   echo "Finished Pushing."
+  echo ""
 }
 
 buildscript_and_push() {
@@ -90,9 +95,9 @@ do
   set +e
 done
 
-for ele in "${tobuildscript[@]}"
-do
-  set -e
-  buildscript_and_push $ele
-  set +e
-done
+#for ele in "${tobuildscript[@]}"
+#do
+#  set -e
+#  buildscript_and_push $ele
+#  set +e
+#done

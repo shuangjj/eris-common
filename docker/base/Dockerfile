@@ -1,4 +1,4 @@
-FROM golang:1.5
+FROM armhfbuild/golang
 MAINTAINER Eris Industries <support@erisindustries.com>
 
 # shut up debian

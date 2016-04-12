@@ -90,6 +90,7 @@ func dirUnix() (string, error) {
 	}
 
 	result := strings.TrimSpace(stdout.String())
+    logger.Debugf("Got home dir (%s) from shell.", result)
 	if result == "" {
 		return "", errors.New("blank output when reading home directory")
 	}

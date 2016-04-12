@@ -1,4 +1,4 @@
-FROM quay.io/eris/gulp
+FROM chainlex/eris-gulp
 MAINTAINER Eris Industries <support@erisindustries.com>
 
 USER root

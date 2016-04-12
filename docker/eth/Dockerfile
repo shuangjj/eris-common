@@ -1,4 +1,4 @@
-FROM quay.io/eris/tools
+FROM chainlex/eris-tools
 MAINTAINER Eris Industries <support@erisindustries.com>
 
 RUN apt-get update -qq && \

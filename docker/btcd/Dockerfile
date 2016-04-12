@@ -1,4 +1,4 @@
-FROM quay.io/eris/base
+FROM chainlex/eris-base
 MAINTAINER Eris Industries <support@erisindustries.com>
 
 RUN go get -u github.com/btcsuite/btcd/...

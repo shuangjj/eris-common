@@ -1,4 +1,4 @@
-FROM quay.io/eris/node
+FROM chainlex/eris-node
 
 RUN npm --global install commonform-cli
 

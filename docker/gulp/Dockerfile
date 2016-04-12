@@ -1,4 +1,4 @@
-FROM quay.io/eris/node
+FROM chainlex/eris-node
 MAINTAINER Eris Industries <support@erisindustries.com>
 
 RUN npm install --global gulp
