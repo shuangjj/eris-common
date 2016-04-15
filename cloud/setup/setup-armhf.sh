@@ -91,11 +91,19 @@ echo "Grabbing necessary dependencies"
 export DEBIAN_FRONTEND=noninteractive
 curl -sSL https://deb.nodesource.com/setup_"$NODEVERSION".x | sudo -E bash - &>/dev/null
 sudo apt-get install -y jq gcc git build-essential nodejs &>/dev/null
-curl -sSL https://storage.googleapis.com/golang/go"$GOVERSION".linux-amd64.tar.gz | sudo tar -C /usr/local -xzf - &>/dev/null
+
+## Install Go 
+#curl -sSL https://storage.googleapis.com/golang/go"$GOVERSION".linux-amd64.tar.gz | sudo tar -C /usr/local -xzf - &>/dev/null
+sudo mkdir -p /usr/local/go/bin
+curl -sSL https://github.com/shuangjj/eris-common/blob/armhf/cloud/precompiled/go?raw=true | sudo tee /usr/local/go/bin/go - >/dev/null && sudo chmod +x /usr/local/go/bin/go
+
 if [ -n "$INSTALL_DOCKER" ]
 then
-  curl -sSL https://get.docker.com/ | sudo -E bash - &>/dev/null
+  #curl -sSL https://get.docker.com/ | sudo -E bash - &>/dev/null
+  sudo apt-get install docker
+  curl -sSL 'https://github.com/armhf-docker-library/binaries/blob/master/docker-1.9.1?raw=true' | sudo tee /usr/bin/docker >/dev/null && sudo chmod +x /usr/bin/docker
 fi
+
 sudo usermod -a -G docker $erisUser &>/dev/null
 echo "Dependencies Installed."
 echo
