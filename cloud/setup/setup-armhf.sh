@@ -94,7 +94,7 @@ sudo apt-get install -y jq gcc git build-essential nodejs &>/dev/null
 
 ## Install Go 
 #curl -sSL https://storage.googleapis.com/golang/go"$GOVERSION".linux-amd64.tar.gz | sudo tar -C /usr/local -xzf - &>/dev/null
-if [ ! -d "/usr/local/go$GOVERSION" ]
+if [ ! -d "/usr/local/go$GOVERSION" ]; then
     curl -sSL https://www.dropbox.com/s/1v8uxdn6oo48t2g/go1.6.tar.gz?dl=0 | sudo tar -C /usr/local -xzf - >/dev/null
 fi
 
