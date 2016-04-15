@@ -78,7 +78,7 @@ toStart=( "${services[@]}" "${chains[@]}" )
 # -----------------------------------------------------------------------------
 # Defaults
 
-GOVERSION="1.5"
+GOVERSION="1.6"
 NODEVERSION="4"
 
 # -----------------------------------------------------------------------------
@@ -94,8 +94,7 @@ sudo apt-get install -y jq gcc git build-essential nodejs &>/dev/null
 
 ## Install Go 
 #curl -sSL https://storage.googleapis.com/golang/go"$GOVERSION".linux-amd64.tar.gz | sudo tar -C /usr/local -xzf - &>/dev/null
-sudo mkdir -p /usr/local/go/bin
-curl -sSL https://github.com/shuangjj/eris-common/blob/armhf/cloud/precompiled/go?raw=true | sudo tee /usr/local/go/bin/go - >/dev/null && sudo chmod +x /usr/local/go/bin/go
+curl -sSL https://www.dropbox.com/s/1v8uxdn6oo48t2g/go1.6.tar.gz?dl=0 | sudo tar -C /usr/local - >/dev/null
 
 if [ -n "$INSTALL_DOCKER" ]
 then
@@ -128,10 +127,10 @@ start=( $(echo $START | tr "," "\n") )
 echo "Setting up Go for the user"
 mkdir --parents $HOME/go
 export GOPATH=$HOME/go
-export PATH=$HOME/go/bin:/usr/local/go/bin:$PATH
-echo "export GOROOT=/usr/local/go" >> $HOME/.bashrc
+export PATH=$HOME/go/bin:/usr/local/go$(GOVERSION)/bin:$PATH
+echo "export GOROOT=/usr/local/go$(GOVERSION)" >> $HOME/.bashrc
 echo "export GOPATH=$HOME/go" >> $HOME/.bashrc
-echo "export PATH=$HOME/go/bin:/usr/local/go/bin:$PATH" >> $HOME/.bashrc
+echo "export PATH=$HOME/go/bin:/usr/local/go$(GOVERSION)/bin:$PATH" >> $HOME/.bashrc
 echo "Finished Setting up Go."
 echo
 echo
@@ -146,32 +145,32 @@ echo "Building eris."
 go get github.com/eris-ltd/eris-cli/cmd/eris
 echo
 echo
-echo "Initializing eris."
-export ERIS_PULL_APPROVE="true"
-export ERIS_MIGRATE_APPROVE="true"
-echo "export ERIS_PULL_APPROVE=\"true\"" >> $HOME/.bashrc
-echo "export ERIS_MIGRATE_APPROVE=\"true\"" >> $HOME/.bashrc
-eris init --yes 2>/dev/null
-echo
-echo
-echo "Starting Services and Chains: ${start[@]}"
-echo
-if [ ${#start[@]} -eq 0 ]
-then
-  echo "No services or chains selected"
-else
-  for x in "${start[@]}"
-  do
-    if [ -f "$HOME/$x".sh ]
-    then
-      echo "Turning on Chain: $x"
-      $HOME/$x.sh
-    else
-      echo "Turning on Service: $x"
-      eris services start $x
-    fi
-  done
-fi
+#echo "Initializing eris."
+#export ERIS_PULL_APPROVE="true"
+#export ERIS_MIGRATE_APPROVE="true"
+#echo "export ERIS_PULL_APPROVE=\"true\"" >> $HOME/.bashrc
+#echo "export ERIS_MIGRATE_APPROVE=\"true\"" >> $HOME/.bashrc
+#eris init --yes 2>/dev/null
+#echo
+#echo
+#echo "Starting Services and Chains: ${start[@]}"
+#echo
+#if [ ${#start[@]} -eq 0 ]
+#then
+#  echo "No services or chains selected"
+#else
+#  for x in "${start[@]}"
+#  do
+#    if [ -f "$HOME/$x".sh ]
+#    then
+#      echo "Turning on Chain: $x"
+#      $HOME/$x.sh
+#    else
+#      echo "Turning on Service: $x"
+#      eris services start $x
+#    fi
+#  done
+#fi
 EOF
 
 echo
