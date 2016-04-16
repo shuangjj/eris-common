@@ -96,6 +96,7 @@ sudo apt-get install -y jq gcc git build-essential nodejs &>/dev/null
 #curl -sSL https://storage.googleapis.com/golang/go"$GOVERSION".linux-amd64.tar.gz | sudo tar -C /usr/local -xzf - &>/dev/null
 if [ ! -d "/usr/local/go$GOVERSION" ]; then
     curl -sSL https://www.dropbox.com/s/1v8uxdn6oo48t2g/go1.6.tar.gz?dl=0 | sudo tar -C /usr/local -xzf - >/dev/null
+    echo "Installed go$GOVERSION to /usr/local/"
 fi
 
 if [ -n "$INSTALL_DOCKER" ]
@@ -129,10 +130,10 @@ start=( $(echo $START | tr "," "\n") )
 echo "Setting up Go for the user"
 mkdir --parents $HOME/go
 export GOPATH=$HOME/go
-export PATH=$HOME/go/bin:/usr/local/go$(GOVERSION)/bin:$PATH
+export PATH=$HOME/go/bin:/usr/local/go"$GOVERSION"/bin:$PATH
 echo "export GOROOT=/usr/local/go$GOVERSION" >> $HOME/.bashrc
 echo "export GOPATH=$HOME/go" >> $HOME/.bashrc
-echo "export PATH=$HOME/go/bin:/usr/local/go${GOVERSION}/bin:$PATH" >> $HOME/.bashrc
+echo "export PATH=$HOME/go/bin:/usr/local/go$GOVERSION/bin:$PATH" >> $HOME/.bashrc
 echo "Finished Setting up Go."
 echo
 echo
@@ -145,7 +146,7 @@ echo
 echo
 echo "Building eris."
 go get github.com/eris-ltd/eris-cli/cmd/eris
-echo
+echo "Eris-cli installed!"
 echo
 #echo "Initializing eris."
 #export ERIS_PULL_APPROVE="true"
@@ -173,7 +174,7 @@ echo
 #    fi
 #  done
 #fi
-EOF
+#EOF
 
 echo
 echo "Finished starting services and chains."
