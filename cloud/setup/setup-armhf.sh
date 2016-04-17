@@ -84,7 +84,7 @@ NODEVERSION="4"
 # -----------------------------------------------------------------------------
 # Install dependencies
 
-echo "Hello there! I'm the marmot that installs Eris."
+echo "Hello $erisUser! I'm the marmot that installs Eris."
 echo
 echo
 echo "Grabbing necessary dependencies"
@@ -126,15 +126,20 @@ echo
 # Install eris
 
 sudo -u "$erisUser" -i env START="`printf ",%s" "${toStart[@]}"`" bash <<'EOF'
+GOVERSION="1.6"
 start=( $(echo $START | tr "," "\n") )
 echo "Setting up Go for the user"
 mkdir --parents $HOME/go
-export GOPATH=$HOME/go
-export PATH=$HOME/go/bin:/usr/local/go"$GOVERSION"/bin:$PATH
-echo "export GOROOT=/usr/local/go$GOVERSION" >> $HOME/.bashrc
-echo "export GOPATH=$HOME/go" >> $HOME/.bashrc
-echo "export PATH=$HOME/go/bin:/usr/local/go$GOVERSION/bin:$PATH" >> $HOME/.bashrc
-echo "Finished Setting up Go."
+if [ -z "$GOPATH" ]
+then
+    export GOPATH=$HOME/go
+    export GOROOT=/usr/local/go$GOVERSION
+    export PATH=$HOME/go/bin:/usr/local/go"$GOVERSION"/bin:$PATH
+    echo "export GOROOT=/usr/local/go$GOVERSION" >> $HOME/.bashrc
+    echo "export GOPATH=$HOME/go" >> $HOME/.bashrc
+    echo "export PATH=$HOME/go/bin:/usr/local/go$GOVERSION/bin:\$PATH" >> $HOME/.bashrc
+    echo "Finished Setting up Go."
+fi
 echo
 echo
 echo "Version Information"
@@ -148,33 +153,36 @@ echo "Building eris."
 go get github.com/eris-ltd/eris-cli/cmd/eris
 echo "Eris-cli installed!"
 echo
-#echo "Initializing eris."
-#export ERIS_PULL_APPROVE="true"
-#export ERIS_MIGRATE_APPROVE="true"
-#echo "export ERIS_PULL_APPROVE=\"true\"" >> $HOME/.bashrc
-#echo "export ERIS_MIGRATE_APPROVE=\"true\"" >> $HOME/.bashrc
+if [ -z "$ERIS_PULL_APPROVE" ]
+then
+    echo "Initializing eris."
+    export ERIS_PULL_APPROVE="true"
+    export ERIS_MIGRATE_APPROVE="true"
+    echo "export ERIS_PULL_APPROVE=\"true\"" >> $HOME/.bashrc
+    echo "export ERIS_MIGRATE_APPROVE=\"true\"" >> $HOME/.bashrc
+fi
 #eris init --yes 2>/dev/null
-#echo
-#echo
-#echo "Starting Services and Chains: ${start[@]}"
-#echo
-#if [ ${#start[@]} -eq 0 ]
-#then
-#  echo "No services or chains selected"
-#else
-#  for x in "${start[@]}"
-#  do
-#    if [ -f "$HOME/$x".sh ]
-#    then
-#      echo "Turning on Chain: $x"
-#      $HOME/$x.sh
-#    else
-#      echo "Turning on Service: $x"
-#      eris services start $x
-#    fi
-#  done
-#fi
-#EOF
+echo
+echo
+echo "Starting Services and Chains: ${start[@]}"
+echo
+if [ ${#start[@]} -eq 0 ]
+then
+  echo "No services or chains selected"
+else
+  for x in "${start[@]}"
+  do
+    if [ -f "$HOME/$x".sh ]
+    then
+      echo "Turning on Chain: $x"
+      $HOME/$x.sh
+    else
+      echo "Turning on Service: $x"
+      eris services start $x
+    fi
+  done
+fi
+EOF
 
 echo
 echo "Finished starting services and chains."
