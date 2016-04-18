@@ -150,7 +150,7 @@ docker version
 echo
 echo
 echo "Building eris."
-go get github.com/eris-ltd/eris-cli/cmd/eris
+go get github.com/shuangjj/eris-cli/tree/armhf/cmd/eris
 echo "Eris-cli installed!"
 echo
 if [ -z "$ERIS_PULL_APPROVE" ]
@@ -161,7 +161,7 @@ then
     echo "export ERIS_PULL_APPROVE=\"true\"" >> $HOME/.bashrc
     echo "export ERIS_MIGRATE_APPROVE=\"true\"" >> $HOME/.bashrc
 fi
-#eris init --yes 2>/dev/null
+eris init --yes 2>/dev/null
 echo
 echo
 echo "Starting Services and Chains: ${start[@]}"
