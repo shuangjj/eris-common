@@ -150,7 +150,14 @@ docker version
 echo
 echo
 echo "Building eris."
-go get github.com/shuangjj/eris-cli/tree/armhf/cmd/eris
+pre_dir=$pwd
+go get -d github.com/shuangjj/eris-cli/cmd/eris
+cd $GOPATH/src/github.com/shuangjj/eris-cli/cmd/eris
+git checkout armhf
+go build
+go install
+cd $pre_dir
+
 echo "Eris-cli installed!"
 echo
 if [ -z "$ERIS_PULL_APPROVE" ]
