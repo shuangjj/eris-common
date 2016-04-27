@@ -90,7 +90,7 @@ echo
 echo "Grabbing necessary dependencies"
 export DEBIAN_FRONTEND=noninteractive
 curl -sSL https://deb.nodesource.com/setup_"$NODEVERSION".x | sudo -E bash - &>/dev/null
-sudo apt-get install -y jq gcc git build-essential nodejs &>/dev/null
+sudo apt-get install -y bc jq gcc git build-essential nodejs &>/dev/null
 
 ## Install Go 
 #curl -sSL https://storage.googleapis.com/golang/go"$GOVERSION".linux-amd64.tar.gz | sudo tar -C /usr/local -xzf - &>/dev/null
